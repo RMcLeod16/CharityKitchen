@@ -1,0 +1,1260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetOrders">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetOrdersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOrdersResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceOperation">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Success" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Exception" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Data" type="tns:ArrayOfAnyType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAnyType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="anyType" nillable="true" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="User">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Order">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Suburb" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Postcode" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Role">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OrderMeal">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrderID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MealID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrderedQty" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UserRole">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="RoleID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="AccessLevel" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Meal">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Ingredient">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AvailableQty" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CostPerUnit" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UserIDNameCombo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Username" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MealIngredient">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MealID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IngredientID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="RequiredQty" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="order" type="tns:Order" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddOrderResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="order" type="tns:Order" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateOrderResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOrderMeals">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="orderID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOrderMealsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOrderMealsResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddOrderMeal">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="orderMeal" type="tns:OrderMeal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddOrderMealResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddOrderMealResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateOrderMeal">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="orderMeal" type="tns:OrderMeal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateOrderMealResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateOrderMealResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteOrderMeal">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="orderMealID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteOrderMealResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteOrderMealResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMeals">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetMealsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMealsResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddMeal">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="meal" type="tns:Meal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddMealResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddMealResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateMeal">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="meal" type="tns:Meal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateMealResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateMealResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMealIngredients">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="mealID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMealIngredientsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMealIngredientsResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddMealIngredient">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mealIngredient" type="tns:MealIngredient" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddMealIngredientResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddMealIngredientResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateMealIngredient">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="mealIngredient" type="tns:MealIngredient" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateMealIngredientResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateMealIngredientResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteMealIngredient">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="mealIngredientID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteMealIngredientResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteMealIngredientResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetIngredients">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetIngredientsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetIngredientsResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddIngredient">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ingredient" type="tns:Ingredient" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddIngredientResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddIngredientResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateIngredient">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ingredient" type="tns:Ingredient" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateIngredientResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateIngredientResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UserLogin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UserLoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UserLoginResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserIDNameCombos">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetUserIDNameCombosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserIDNameCombosResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddNewUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="tns:User" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddNewUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddNewUserResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userCombo" type="tns:UserIDNameCombo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateUserResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ResetUserPass">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="tns:User" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ResetUserPassResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ResetUserPassResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserRoles">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserRolesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserRolesResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddUserRole">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userRole" type="tns:UserRole" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddUserRoleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddUserRoleResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserRole">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userRole" type="tns:UserRole" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateUserRoleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateUserRoleResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRoles">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetRolesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRolesResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddRole">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="role" type="tns:Role" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddRoleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddRoleResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateRole">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="role" type="tns:Role" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateRoleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UpdateRoleResult" type="tns:ServiceOperation" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetOrdersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOrders" />
+  </wsdl:message>
+  <wsdl:message name="GetOrdersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOrdersResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:AddOrder" />
+  </wsdl:message>
+  <wsdl:message name="AddOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:AddOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateOrder" />
+  </wsdl:message>
+  <wsdl:message name="UpdateOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderMealsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOrderMeals" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderMealsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOrderMealsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddOrderMealSoapIn">
+    <wsdl:part name="parameters" element="tns:AddOrderMeal" />
+  </wsdl:message>
+  <wsdl:message name="AddOrderMealSoapOut">
+    <wsdl:part name="parameters" element="tns:AddOrderMealResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateOrderMealSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateOrderMeal" />
+  </wsdl:message>
+  <wsdl:message name="UpdateOrderMealSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateOrderMealResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteOrderMealSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteOrderMeal" />
+  </wsdl:message>
+  <wsdl:message name="DeleteOrderMealSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteOrderMealResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMealsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMeals" />
+  </wsdl:message>
+  <wsdl:message name="GetMealsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMealsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddMealSoapIn">
+    <wsdl:part name="parameters" element="tns:AddMeal" />
+  </wsdl:message>
+  <wsdl:message name="AddMealSoapOut">
+    <wsdl:part name="parameters" element="tns:AddMealResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateMealSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateMeal" />
+  </wsdl:message>
+  <wsdl:message name="UpdateMealSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateMealResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMealIngredientsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMealIngredients" />
+  </wsdl:message>
+  <wsdl:message name="GetMealIngredientsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMealIngredientsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddMealIngredientSoapIn">
+    <wsdl:part name="parameters" element="tns:AddMealIngredient" />
+  </wsdl:message>
+  <wsdl:message name="AddMealIngredientSoapOut">
+    <wsdl:part name="parameters" element="tns:AddMealIngredientResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateMealIngredientSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateMealIngredient" />
+  </wsdl:message>
+  <wsdl:message name="UpdateMealIngredientSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateMealIngredientResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteMealIngredientSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteMealIngredient" />
+  </wsdl:message>
+  <wsdl:message name="DeleteMealIngredientSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteMealIngredientResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetIngredientsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetIngredients" />
+  </wsdl:message>
+  <wsdl:message name="GetIngredientsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetIngredientsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddIngredientSoapIn">
+    <wsdl:part name="parameters" element="tns:AddIngredient" />
+  </wsdl:message>
+  <wsdl:message name="AddIngredientSoapOut">
+    <wsdl:part name="parameters" element="tns:AddIngredientResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateIngredientSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateIngredient" />
+  </wsdl:message>
+  <wsdl:message name="UpdateIngredientSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateIngredientResponse" />
+  </wsdl:message>
+  <wsdl:message name="UserLoginSoapIn">
+    <wsdl:part name="parameters" element="tns:UserLogin" />
+  </wsdl:message>
+  <wsdl:message name="UserLoginSoapOut">
+    <wsdl:part name="parameters" element="tns:UserLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserIDNameCombosSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserIDNameCombos" />
+  </wsdl:message>
+  <wsdl:message name="GetUserIDNameCombosSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserIDNameCombosResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddNewUserSoapIn">
+    <wsdl:part name="parameters" element="tns:AddNewUser" />
+  </wsdl:message>
+  <wsdl:message name="AddNewUserSoapOut">
+    <wsdl:part name="parameters" element="tns:AddNewUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateUser" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="ResetUserPassSoapIn">
+    <wsdl:part name="parameters" element="tns:ResetUserPass" />
+  </wsdl:message>
+  <wsdl:message name="ResetUserPassSoapOut">
+    <wsdl:part name="parameters" element="tns:ResetUserPassResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserRolesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserRoles" />
+  </wsdl:message>
+  <wsdl:message name="GetUserRolesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserRolesResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddUserRoleSoapIn">
+    <wsdl:part name="parameters" element="tns:AddUserRole" />
+  </wsdl:message>
+  <wsdl:message name="AddUserRoleSoapOut">
+    <wsdl:part name="parameters" element="tns:AddUserRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserRoleSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateUserRole" />
+  </wsdl:message>
+  <wsdl:message name="UpdateUserRoleSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateUserRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRolesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRoles" />
+  </wsdl:message>
+  <wsdl:message name="GetRolesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRolesResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddRoleSoapIn">
+    <wsdl:part name="parameters" element="tns:AddRole" />
+  </wsdl:message>
+  <wsdl:message name="AddRoleSoapOut">
+    <wsdl:part name="parameters" element="tns:AddRoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateRoleSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateRole" />
+  </wsdl:message>
+  <wsdl:message name="UpdateRoleSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateRoleResponse" />
+  </wsdl:message>
+  <wsdl:portType name="CharityKitchenDataServiceSoap">
+    <wsdl:operation name="GetOrders">
+      <wsdl:input message="tns:GetOrdersSoapIn" />
+      <wsdl:output message="tns:GetOrdersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddOrder">
+      <wsdl:input message="tns:AddOrderSoapIn" />
+      <wsdl:output message="tns:AddOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateOrder">
+      <wsdl:input message="tns:UpdateOrderSoapIn" />
+      <wsdl:output message="tns:UpdateOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderMeals">
+      <wsdl:input message="tns:GetOrderMealsSoapIn" />
+      <wsdl:output message="tns:GetOrderMealsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddOrderMeal">
+      <wsdl:input message="tns:AddOrderMealSoapIn" />
+      <wsdl:output message="tns:AddOrderMealSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateOrderMeal">
+      <wsdl:input message="tns:UpdateOrderMealSoapIn" />
+      <wsdl:output message="tns:UpdateOrderMealSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOrderMeal">
+      <wsdl:input message="tns:DeleteOrderMealSoapIn" />
+      <wsdl:output message="tns:DeleteOrderMealSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMeals">
+      <wsdl:input message="tns:GetMealsSoapIn" />
+      <wsdl:output message="tns:GetMealsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMeal">
+      <wsdl:input message="tns:AddMealSoapIn" />
+      <wsdl:output message="tns:AddMealSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateMeal">
+      <wsdl:input message="tns:UpdateMealSoapIn" />
+      <wsdl:output message="tns:UpdateMealSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMealIngredients">
+      <wsdl:input message="tns:GetMealIngredientsSoapIn" />
+      <wsdl:output message="tns:GetMealIngredientsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMealIngredient">
+      <wsdl:input message="tns:AddMealIngredientSoapIn" />
+      <wsdl:output message="tns:AddMealIngredientSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateMealIngredient">
+      <wsdl:input message="tns:UpdateMealIngredientSoapIn" />
+      <wsdl:output message="tns:UpdateMealIngredientSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMealIngredient">
+      <wsdl:input message="tns:DeleteMealIngredientSoapIn" />
+      <wsdl:output message="tns:DeleteMealIngredientSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetIngredients">
+      <wsdl:input message="tns:GetIngredientsSoapIn" />
+      <wsdl:output message="tns:GetIngredientsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddIngredient">
+      <wsdl:input message="tns:AddIngredientSoapIn" />
+      <wsdl:output message="tns:AddIngredientSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateIngredient">
+      <wsdl:input message="tns:UpdateIngredientSoapIn" />
+      <wsdl:output message="tns:UpdateIngredientSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UserLogin">
+      <wsdl:input message="tns:UserLoginSoapIn" />
+      <wsdl:output message="tns:UserLoginSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserIDNameCombos">
+      <wsdl:input message="tns:GetUserIDNameCombosSoapIn" />
+      <wsdl:output message="tns:GetUserIDNameCombosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddNewUser">
+      <wsdl:input message="tns:AddNewUserSoapIn" />
+      <wsdl:output message="tns:AddNewUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser">
+      <wsdl:input message="tns:UpdateUserSoapIn" />
+      <wsdl:output message="tns:UpdateUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ResetUserPass">
+      <wsdl:input message="tns:ResetUserPassSoapIn" />
+      <wsdl:output message="tns:ResetUserPassSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserRoles">
+      <wsdl:input message="tns:GetUserRolesSoapIn" />
+      <wsdl:output message="tns:GetUserRolesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddUserRole">
+      <wsdl:input message="tns:AddUserRoleSoapIn" />
+      <wsdl:output message="tns:AddUserRoleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserRole">
+      <wsdl:input message="tns:UpdateUserRoleSoapIn" />
+      <wsdl:output message="tns:UpdateUserRoleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRoles">
+      <wsdl:input message="tns:GetRolesSoapIn" />
+      <wsdl:output message="tns:GetRolesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddRole">
+      <wsdl:input message="tns:AddRoleSoapIn" />
+      <wsdl:output message="tns:AddRoleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateRole">
+      <wsdl:input message="tns:UpdateRoleSoapIn" />
+      <wsdl:output message="tns:UpdateRoleSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CharityKitchenDataServiceSoap" type="tns:CharityKitchenDataServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetOrders">
+      <soap:operation soapAction="http://tempuri.org/GetOrders" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddOrder">
+      <soap:operation soapAction="http://tempuri.org/AddOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateOrder">
+      <soap:operation soapAction="http://tempuri.org/UpdateOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderMeals">
+      <soap:operation soapAction="http://tempuri.org/GetOrderMeals" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddOrderMeal">
+      <soap:operation soapAction="http://tempuri.org/AddOrderMeal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateOrderMeal">
+      <soap:operation soapAction="http://tempuri.org/UpdateOrderMeal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOrderMeal">
+      <soap:operation soapAction="http://tempuri.org/DeleteOrderMeal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeals">
+      <soap:operation soapAction="http://tempuri.org/GetMeals" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMeal">
+      <soap:operation soapAction="http://tempuri.org/AddMeal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateMeal">
+      <soap:operation soapAction="http://tempuri.org/UpdateMeal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMealIngredients">
+      <soap:operation soapAction="http://tempuri.org/GetMealIngredients" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMealIngredient">
+      <soap:operation soapAction="http://tempuri.org/AddMealIngredient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateMealIngredient">
+      <soap:operation soapAction="http://tempuri.org/UpdateMealIngredient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMealIngredient">
+      <soap:operation soapAction="http://tempuri.org/DeleteMealIngredient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIngredients">
+      <soap:operation soapAction="http://tempuri.org/GetIngredients" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddIngredient">
+      <soap:operation soapAction="http://tempuri.org/AddIngredient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateIngredient">
+      <soap:operation soapAction="http://tempuri.org/UpdateIngredient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserLogin">
+      <soap:operation soapAction="http://tempuri.org/UserLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserIDNameCombos">
+      <soap:operation soapAction="http://tempuri.org/GetUserIDNameCombos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNewUser">
+      <soap:operation soapAction="http://tempuri.org/AddNewUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser">
+      <soap:operation soapAction="http://tempuri.org/UpdateUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetUserPass">
+      <soap:operation soapAction="http://tempuri.org/ResetUserPass" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserRoles">
+      <soap:operation soapAction="http://tempuri.org/GetUserRoles" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUserRole">
+      <soap:operation soapAction="http://tempuri.org/AddUserRole" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserRole">
+      <soap:operation soapAction="http://tempuri.org/UpdateUserRole" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoles">
+      <soap:operation soapAction="http://tempuri.org/GetRoles" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddRole">
+      <soap:operation soapAction="http://tempuri.org/AddRole" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateRole">
+      <soap:operation soapAction="http://tempuri.org/UpdateRole" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="CharityKitchenDataServiceSoap12" type="tns:CharityKitchenDataServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetOrders">
+      <soap12:operation soapAction="http://tempuri.org/GetOrders" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddOrder">
+      <soap12:operation soapAction="http://tempuri.org/AddOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateOrder">
+      <soap12:operation soapAction="http://tempuri.org/UpdateOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderMeals">
+      <soap12:operation soapAction="http://tempuri.org/GetOrderMeals" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddOrderMeal">
+      <soap12:operation soapAction="http://tempuri.org/AddOrderMeal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateOrderMeal">
+      <soap12:operation soapAction="http://tempuri.org/UpdateOrderMeal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOrderMeal">
+      <soap12:operation soapAction="http://tempuri.org/DeleteOrderMeal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMeals">
+      <soap12:operation soapAction="http://tempuri.org/GetMeals" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMeal">
+      <soap12:operation soapAction="http://tempuri.org/AddMeal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateMeal">
+      <soap12:operation soapAction="http://tempuri.org/UpdateMeal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMealIngredients">
+      <soap12:operation soapAction="http://tempuri.org/GetMealIngredients" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMealIngredient">
+      <soap12:operation soapAction="http://tempuri.org/AddMealIngredient" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateMealIngredient">
+      <soap12:operation soapAction="http://tempuri.org/UpdateMealIngredient" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMealIngredient">
+      <soap12:operation soapAction="http://tempuri.org/DeleteMealIngredient" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIngredients">
+      <soap12:operation soapAction="http://tempuri.org/GetIngredients" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddIngredient">
+      <soap12:operation soapAction="http://tempuri.org/AddIngredient" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateIngredient">
+      <soap12:operation soapAction="http://tempuri.org/UpdateIngredient" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UserLogin">
+      <soap12:operation soapAction="http://tempuri.org/UserLogin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserIDNameCombos">
+      <soap12:operation soapAction="http://tempuri.org/GetUserIDNameCombos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNewUser">
+      <soap12:operation soapAction="http://tempuri.org/AddNewUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser">
+      <soap12:operation soapAction="http://tempuri.org/UpdateUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetUserPass">
+      <soap12:operation soapAction="http://tempuri.org/ResetUserPass" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserRoles">
+      <soap12:operation soapAction="http://tempuri.org/GetUserRoles" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddUserRole">
+      <soap12:operation soapAction="http://tempuri.org/AddUserRole" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUserRole">
+      <soap12:operation soapAction="http://tempuri.org/UpdateUserRole" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoles">
+      <soap12:operation soapAction="http://tempuri.org/GetRoles" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddRole">
+      <soap12:operation soapAction="http://tempuri.org/AddRole" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateRole">
+      <soap12:operation soapAction="http://tempuri.org/UpdateRole" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CharityKitchenDataService">
+    <wsdl:port name="CharityKitchenDataServiceSoap" binding="tns:CharityKitchenDataServiceSoap">
+      <soap:address location="http://localhost:55938/CharityKitchenDataService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="CharityKitchenDataServiceSoap12" binding="tns:CharityKitchenDataServiceSoap12">
+      <soap12:address location="http://localhost:55938/CharityKitchenDataService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
